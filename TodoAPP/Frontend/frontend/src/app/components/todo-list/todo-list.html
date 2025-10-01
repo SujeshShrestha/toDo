@@ -1,0 +1,52 @@
+<div class="container">
+  <h2>My Todo List 
+    @if (todos.length > 0) {
+      <span class="todo-count">({{ todos.length }})</span>
+    }
+  </h2>
+
+  
+  @if (error) {
+    <div class="error">{{ error }}</div>
+  }
+
+  <div class="todo-list">
+    @for (todo of todos; track todo.id) {
+      <div class="todo-item" [class.completed]="todo.isCompleted">
+      <div class="todo-content">
+        <input 
+          type="checkbox" 
+          [checked]="todo.isCompleted" 
+          (change)="onToggleComplete(todo)"
+          class="checkbox"
+        >
+        <div class="todo-details">
+          <h3 [class.completed-text]="todo.isCompleted">{{ todo.title }}</h3>
+          @if (todo.description) {
+            <p [class.completed-text]="todo.isCompleted">
+              {{ todo.description }}
+            </p>
+          }
+          <small>Created: {{ todo.createdDate | date:'medium' }}</small>
+        </div>
+      </div>
+      <button 
+        class="delete-btn" 
+        (click)="onDeleteTodo(todo.id)"
+        title="Delete todo"
+      >
+        Delete
+      </button>
+      </div>
+    }
+
+    @if (todos.length === 0 && !loading) {
+      <div class="no-todos">
+        <div class="empty-state">
+          <h3>Your todo list is empty</h3>
+          <p>Add your first todo</p>
+        </div>
+      </div>
+    }
+  </div>
+</div>
